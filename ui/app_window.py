@@ -2,10 +2,11 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 from uuid import UUID
+
 from service.task_service import TaskService
 
-class AppWindow(tk.Tk):
 
+class AppWindow(tk.Tk):
     def __init__(self, task_service: TaskService) -> None:
         super().__init__()
         self._task_service = task_service
@@ -14,7 +15,6 @@ class AppWindow(tk.Tk):
         self.geometry("820x560")
         self.resizable(False, False)
 
-        # Widgets
         self.create_widgets()
 
     def create_widgets(self) -> None:
@@ -40,39 +40,29 @@ class AppWindow(tk.Tk):
         form_frame = tk.Frame(main_frame, padx=20, pady=20)
         form_frame.pack(fill="x", pady=(18, 16))
 
-        label_title = tk.Label(
-            form_frame,
-            text="Titulo de la tarea",
-        )
+        label_title = tk.Label(form_frame, text="Titulo de la tarea")
         label_title.grid(row=0, column=0, sticky="w")
-        self.title_input = tk.Entry(
-            form_frame,
-            width=34,
-        )
+
+        self.title_input = tk.Entry(form_frame, width=34)
         self.title_input.grid(row=1, column=0, sticky="ew", pady=(6, 14), padx=(0, 14))
 
-        label_description = tk.Label(
-            form_frame,
-            text="Descripcion de la tarea",
-        )
+        label_description = tk.Label(form_frame, text="Descripcion de la tarea")
         label_description.grid(row=0, column=1, sticky="w")
-        self.description_input = tk.Entry(
-            form_frame,
-            width=40,
-        )
+
+        self.description_input = tk.Entry(form_frame, width=40)
         self.description_input.grid(row=1, column=1, sticky="ew", pady=(6, 14))
 
         button_frame = tk.Frame(form_frame)
         button_frame.grid(row=2, column=0, columnspan=2, sticky="w")
 
-        button = tk.Button(
+        create_button = tk.Button(
             button_frame,
             text="Registrar tarea",
             command=self.create_task,
             padx=18,
             pady=10,
         )
-        button.pack(side="left", padx=(0, 10))
+        create_button.pack(side="left", padx=(0, 10))
 
         delete_button = tk.Button(
             button_frame,
@@ -125,7 +115,7 @@ class AppWindow(tk.Tk):
         self.clear_table()
         tasks = self._task_service.get_all_task()
 
-        for index, task in enumerate(tasks):
+        for task in tasks:
             self.tree.insert(
                 "",
                 "end",
